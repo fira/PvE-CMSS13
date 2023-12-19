@@ -167,7 +167,8 @@
 /datum/ammo/proc/knockback_effects(mob/living/living_mob, obj/projectile/fired_projectile)
 	if(iscarbonsizexeno(living_mob))
 		var/mob/living/carbon/xenomorph/target = living_mob
-		target.apply_effect(1, WEAKEN)
+		target.Stun(1)
+		target.KnockDown(0.7)
 		target.apply_effect(2, SUPERSLOW)
 		target.apply_effect(4, SLOW)
 		to_chat(target, SPAN_XENODANGER("You are shaken by the sudden impact!"))

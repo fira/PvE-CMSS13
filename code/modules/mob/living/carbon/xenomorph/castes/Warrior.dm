@@ -93,12 +93,15 @@
 			if(X.tier >= 2) // Tier 2 castes or higher immune to warrior grab stuns
 				return .
 
-		if(should_neckgrab && L.mob_size < MOB_SIZE_BIG)
-			L.drop_held_items()
-			L.apply_effect(get_xeno_stun_duration(L, 2), WEAKEN)
-			L.pulledby = src
-			visible_message(SPAN_XENOWARNING("\The [src] grabs [L] by the throat!"), \
-			SPAN_XENOWARNING("You grab [L] by the throat!"))
+		if(should_neckgrab && living_mob.mob_size < MOB_SIZE_BIG)
+			living_mob.drop_held_items()
+			var/duration = get_xeno_stun_duration(living_mob, 2)
+			living_mob.KnockDown(duration)
+			living_mob.Stun(duration)
+			if(living_mob.pulledby != src)
+				return // Grab was broken, probably as Stun side effect (eg. target getting knocked away from a manned M56D)
+			visible_message(SPAN_XENOWARNING("[src] grabs [living_mob] by the throat!"), \
+			SPAN_XENOWARNING("We grab [living_mob] by the throat!"))
 			lunging = TRUE
 			addtimer(CALLBACK(src, PROC_REF(stop_lunging)), get_xeno_stun_duration(L, 2) SECONDS + 1 SECONDS)
 
