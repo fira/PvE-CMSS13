@@ -78,18 +78,18 @@
 
 	if(!isliving(AM))
 		return FALSE
-	var/mob/living/L = AM
-	var/should_neckgrab = !(src.can_not_harm(L)) && lunge
+	var/mob/living/living_mob = AM
+	var/should_neckgrab = !(src.can_not_harm(living_mob)) && lunge
 
-	if(!QDELETED(L) && !QDELETED(L.pulledby) && L != src ) //override pull of other mobs
-		visible_message(SPAN_WARNING("[src] has broken [L.pulledby]'s grip on [L]!"), null, null, 5)
-		L.pulledby.stop_pulling()
+	if(!QDELETED(L) && !QDELETED(living_mob.pulledby) && living_mob != src ) //override pull of other mobs
+		visible_message(SPAN_WARNING("[src] has broken [living_mob.pulledby]'s grip on [L]!"), null, null, 5)
+		living_mob.pulledby.stop_pulling()
 
-	. = ..(L, lunge, should_neckgrab)
+	. = ..(living_mob, lunge, should_neckgrab)
 
 	if(.) //successful pull
-		if(isxeno(L))
-			var/mob/living/carbon/xenomorph/X = L
+		if(isxeno(living_mob))
+			var/mob/living/carbon/xenomorph/X = living_mob
 			if(X.tier >= 2) // Tier 2 castes or higher immune to warrior grab stuns
 				return .
 
