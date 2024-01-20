@@ -81,8 +81,8 @@
 	var/mob/living/living_mob = AM
 	var/should_neckgrab = !(src.can_not_harm(living_mob)) && lunge
 
-	if(!QDELETED(L) && !QDELETED(living_mob.pulledby) && living_mob != src ) //override pull of other mobs
-		visible_message(SPAN_WARNING("[src] has broken [living_mob.pulledby]'s grip on [L]!"), null, null, 5)
+	if(!QDELETED(living_mob) && !QDELETED(living_mob.pulledby) && living_mob != src ) //override pull of other mobs
+		visible_message(SPAN_WARNING("[src] has broken [living_mob.pulledby]'s grip on [living_mob]!"), null, null, 5)
 		living_mob.pulledby.stop_pulling()
 
 	. = ..(living_mob, lunge, should_neckgrab)
@@ -103,7 +103,7 @@
 			visible_message(SPAN_XENOWARNING("[src] grabs [living_mob] by the throat!"), \
 			SPAN_XENOWARNING("We grab [living_mob] by the throat!"))
 			lunging = TRUE
-			addtimer(CALLBACK(src, PROC_REF(stop_lunging)), get_xeno_stun_duration(L, 2) SECONDS + 1 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(stop_lunging)), get_xeno_stun_duration(living_mob, 2) SECONDS + 1 SECONDS)
 
 /mob/living/carbon/xenomorph/warrior/proc/stop_lunging(world_time)
 	lunging = FALSE
